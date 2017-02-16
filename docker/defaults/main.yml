@@ -1,0 +1,9 @@
+---
+# defaults file for docker
+default_conf: /etc/default/docker
+docker_service_file: /usr/lib/systemd/system/docker.service
+docker_storage: /data/docker/data
+docker_port: 2376
+firewall_enable: false
+docker_compose_url: https://get.daocloud.io/docker/compose/releases/download/1.8.1/docker-compose-Linux-x86_64
+docker_url: https://get.daocloud.io/docker

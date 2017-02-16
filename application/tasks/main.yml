@@ -1,0 +1,29 @@
+---
+# tasks file for yunluweb
+# get repo from git
+# unzip war to tomcat_web_root
+# config nginx proxy
+
+- name: Create  data  directory
+  file: path={{ datadir }}  state=directory
+- name: Get jdk package
+  get_url:  url={{ get_url_path }}/{{ jdk_name }} dest={{ datadir }}/{{ jdk_name }}
+
+- name: Install jdk_name  package
+  shell:  chdir={{ datadir }}  yum install  {{ jdk_name }} -y
+- name: Get application package
+  get_url:  url={{ get_url_path }}/{{ api_name }} dest={{ datadir }}/{{ api_name }}
+
+- name: tar application package
+  shell:  chdir={{ datadir }}  tar  xvf {{ api_name }}
+- name: Create  api_conf directory
+  file: path={{ datadir }}/{{ api_conf_dir }} state=directory
+
+- name: Copy  api_conf  file
+  template: src=templates/application.properties.j2 dest={{ datadir }}/{{ api_conf_dir }}/application.properties
+- name: Stopped firewalld service
+  service: name=firewalld state=stopped
+- name: Clean iptables  rules
+  shell:  iptables -F
+- name: Start application service
+  shell:  nohup {{ datadir }}/{{ api_dir }}/bin/api -c {{ api_conf_dir }}/application.properties  &

@@ -1,0 +1,16 @@
+---
+  #update docker config
+- name: Creates docker images dir
+  file: path={{docker_storage}} state=directory
+
+- name: add DOCKER_OPTS for storage
+  template: src=templates/docker.j2 dest={{ default_conf }}
+
+- name: add docker service file
+  template: src=templates/docker.service.j2 dest={{ docker_service_file }}
+
+- name: Reload systemctl
+  command: systemctl daemon-reload
+
+- name: Restart docker
+  service: name=docker state=restarted

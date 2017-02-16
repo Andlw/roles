@@ -1,0 +1,6 @@
+---
+fast_store_conf_path: /etc/fdfs/storage.conf
+fast_store_bin: /usr/bin/fdfs_storaged
+fast_tracker_bin: /usr/bin/fdfs_trackerd
+fast_tracker_conf_path: /etc/fdfs/tracker.conf
+fast_nginx_moudle_conf_path: /etc/fdfs/mod_fastdfs.conf

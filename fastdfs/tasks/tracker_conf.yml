@@ -1,0 +1,12 @@
+---
+# config tracker
+- name: Create fastdfs tracker base directory
+  file: path="{{ fast_tracker_base_path }}" state=directory
+
+- name: Install tracker template file
+  template: src=tracker.conf.j2 dest=/etc/fdfs/tracker.conf dest={{ fast_tracker_conf_path }}
+
+- name: restart fast tracker
+  debug: msg="tracker restart"
+  notify: fast tracker restart
+  changed_when: true

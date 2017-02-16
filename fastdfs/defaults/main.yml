@@ -1,0 +1,31 @@
+---
+fast_store: True
+fast_workdir: /data/app
+fast_basedir: /data/fdfs
+
+fast_store_bind: 0.0.0.0
+fast_store_port: 23000
+fast_store_group_name: group1
+fast_store_base_path: "{{ fast_basedir }}/fdfs_storage_info"
+fast_store_path0: "{{ fast_basedir }}/fdfs_storage_data"
+# if fastdfs role is storage
+fast_store_log_level: notice
+fast_store_allow_host: "*"
+
+fast_tracker_bind: 0.0.0.0
+fast_tracker_port: 22122
+fast_tracker_base_path: "{{ fast_basedir }}/fdfs_tracker"
+fast_tracker_store_lookup: 2
+fast_tracker_log_level: notice
+fast_tracker_allow_host: "*"
+
+fast_libfastcommon_package: libfastcommon-1.0.7
+fast_libfastcommon_url: "http://106.75.69.9/repo/{{ fast_libfastcommon_package }}.tar.gz"
+fast_package: fastdfs-5.05
+fast_src_url: "http://106.75.69.9/repo/{{ fast_package }}.tar.gz"
+
+fast_nginx_enable: True
+fast_nginx_package: nginx-1.11.7
+fast_nginx_src_url: "http://106.75.69.9/repo/{{ fast_nginx_package }}.tar.gz"
+fast_nginx_prefix: /data/nginx
+fast_nginx_port: 8888

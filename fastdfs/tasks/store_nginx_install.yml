@@ -1,0 +1,26 @@
+---
+# install nginx on store server with fastdfs-nginx-module
+- name: Create nginx prefix directory
+  file: path="{{ fast_nginx_prefix }}" state=directory
+
+- name: Download nginx package
+  get_url: url="{{ fast_nginx_src_url }}"   dest={{ fast_workdir }}
+
+- name: extract nginx package
+  unarchive: src="{{ fast_workdir }}/{{fast_nginx_package}}.tar.gz" dest={{ fast_workdir }} copy=no
+
+- name: download nginx module
+  git:
+    repo: https://github.com/shanyou/fastdfs-nginx-module.git
+    dest: "{{ fast_workdir }}/fastdfs-nginx-module"
+
+- name: Copy build scripts
+  template: src=build_nginx.sh.j2 dest="{{ fast_workdir }}/{{fast_nginx_package}}/build_nginx.sh" mode=0755
+
+- name: build
+  shell: "{{ fast_workdir }}/{{fast_nginx_package}}/build_nginx.sh"
+  async: 3000
+  poll: 5
+  register: make_result
+
+- name: create module log file

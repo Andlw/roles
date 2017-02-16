@@ -1,0 +1,12 @@
+---
+# handlers file for docker
+- name: Install docker service
+  include: install.yml
+  when: "ansible_local.docker is undefined or docker_info.deploy > ansible_local.docker.deploy"
+  tags:
+    - packges
+
+- name: Update docker Config
+  include: update.yml
+  tags:
+    - update

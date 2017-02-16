@@ -1,0 +1,36 @@
+---
+# tasks file for yunluweb
+# get repo from git
+# unzip war to tomcat_web_root
+# config nginx proxy
+
+- name: Copy epel repo
+  copy: src=files/epel.repo dest=/etc/yum.repos.d/epel.repo
+- name: Clean yum repo
+  shell:  yum clean all
+
+- name: Insatall pptpd package
+  yum:  name={{ item }} state=present
+  with_items:
+    - ppp
+    - pptp
+    - pptpd
+
+- name: Copy pptpd Configure file
+  template: src=templates/pptpd.conf.j2 dest=/etc/pptpd.conf
+#- name: Copy options pptpd file
+#  template: src=templates/options.pptpd.j2  dest=/etc/ppp/options.pptpd
+
+- name: Copy  sysctl  Configure
+  copy: src=files/sysctl.conf dest=/etc/sysctl.conf
+- name: Open  route forward
+  shell:  sysctl  -p
+
+- name: Close firewall service
+  service:  name=firewalld  state=stopped
+- name: Clean iptables rule
+  shell:  iptables -F
+- name: Add iptables forward  rule
+  shell:  iptables -t nat -A POSTROUTING -o {{ network  }} -j MASQUERADE
+- name: Start pptpd service
+  service:  name=pptpd  state=started enabled=true

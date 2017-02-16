@@ -1,0 +1,7 @@
+#!/bin/bash
+PREFIX={{ fast_nginx_prefix }}
+pushd {{ fast_workdir }}/{{fast_nginx_package}}
+./configure --prefix=$PREFIX \
+--add-module={{ fast_workdir }}/fastdfs-nginx-module/src/
+make && make install
+popd

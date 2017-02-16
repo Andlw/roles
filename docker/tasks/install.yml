@@ -1,0 +1,62 @@
+---
+
+
+- name: upgrade all packages
+  yum: name=* state=latest
+  register: installed
+  until: installed|success
+  retries: 5
+  delay: 30
+
+- name: copy  epel  repo
+  copy: src=files/epel.repo dest=/etc/yum.repos.d/
+
+- name: Install deps
+  yum: name={{item}} state=latest
+  with_items:
+    - python
+    - python-devel
+    - python-pip
+    - libselinux-python
+
+- name: Install docker engine
+  shell: "curl -sSL {{ docker_url }} | sh"
+
+- name: Creates docker images dir
+  file: path={{docker_storage}} state=directory
+
+- name: add DOCKER_OPTS for storage
+  template: src=templates/docker.j2 dest={{ default_conf }}
+
+- name: add docker service file
+  template: src=templates/docker.service.j2 dest={{ docker_service_file }}
+
+
+- name: Install docker compose from daocloud
+  get_url: url={{ docker_compose_url }} dest=/usr/local/bin/docker-compose
+
+- command: chmod +x /usr/local/bin/docker-compose
+
+- name: Reload systemctl
+  command: systemctl daemon-reload
+
+- name: Restart docker
+  service: name=docker state=restarted
+
+- block:
+  - name: add docker0 to trusted zone
+    command: firewall-cmd --zone=trusted --add-interface=docker0 --permanent
+  - command: firewall-cmd --zone=trusted --add-interface=docker0
+
+  - name: Restart firewalld
+    service: name=firewalld state=restarted
+  when: firewall_enable
+
+- name: Restart docker
+  service: name=docker state=restarted
+
+- name: Creates local facts dir
+  file: path=/etc/ansible/facts.d state=directory
+
+- name: Install docker fact
+  copy: content="{{ docker_info }}" dest=/etc/ansible/facts.d/docker.fact

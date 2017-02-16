@@ -1,0 +1,14 @@
+---
+# defaults file for yunluweb
+
+datadir:  /data
+api_name: api-1.0.0-SNAPSHOT.tar
+get_url_path: http://172.17.60.200/repo
+jdk_name: jdk-8u25-linux-x64.rpm
+api_dir:  api-1.0.0-SNAPSHOT
+api_conf_dir: /data/api-1.0.0-SNAPSHOT/conf
+yunlu_zookeeper: 172.17.60.108:2181
+mysql_data_url: jdbc:mysql://172.17.60.108:3306/mercury
+username: root
+password: 123456
+port: 8090
