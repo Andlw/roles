@@ -1,0 +1,40 @@
+---
+# Create tracker base path
+# Get fastdfs package
+# Install fastdfs
+- name: Create tracker_base_path directory
+  file: path="{{ tracker_base_path }}" state=directory
+
+- name: Download libfastcommon package
+  get_url: url="{{ libfastcommon_path }}"   dest=/opt/V1.0.7
+
+- name: Download fastdfs package
+  get_url: url="{{ fastdfs_path }}"  dest=/opt/V5.05.tar.gz
+
+- name: Install development package
+  yum: name={{ item }} state=present
+  with_items:
+  - gcc
+  - gcc-c++
+
+- name: Extract libfastcommon package
+  shell: tar xvf /opt/V1.0.7 -C /opt/
+
+- name: Make libfastcommon package
+  shell: chdir=/opt/libfastcommon-1.0.7 ./make.sh
+- name: Make install libfastcommon package
+  shell: chdir=/opt/libfastcommon-1.0.7 ./make.sh install
+
+- name: Extract fastdfs package
+  command: chdir=/usr/share /bin/tar xvf /opt/V5.05.tar.gz -C /opt/ creates=/opt/fastdfs-5.05
+- name: Make fastdfs package
+  shell: chdir=/opt/fastdfs-5.05 ./make.sh
+- name: Make install  fastdfs package
+  shell: chdir=/opt/fastdfs-5.05 ./make.sh install
+
+- name: Install tracker template file
+  template: src=tracker.conf.j2 dest=/etc/fdfs/tracker.conf
+
+- name: Started tracker service
+  command: /usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf start
+

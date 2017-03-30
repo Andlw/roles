@@ -1,0 +1,13 @@
+---
+- hosts: all
+  serial: 1
+  roles:
+    - role: InServerCommon
+
+# - hosts: admin_servers
+#   roles:
+#     - role: java
+#   vars:
+#     java_version: 8
+#     java_download_from_oracle: true
+#     java_subversion: 74

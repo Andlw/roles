@@ -1,0 +1,10 @@
+---
+# defaults file for elasticsearch
+es_rpm_file: elasticsearch-5.0.1.rpm
+es_download_url: "http://admin1.inter.htyunwang.com/repo/{{ es_rpm_file }}"
+es_workdir: /data/app/es
+es_data_dir: /data/elasticsearch/db
+es_log_dir: /data/elasticsearch/logs
+es_conf_dir: /etc/elasticsearch
+es_home: /usr/share/elasticsearch
+es_xpack_enable: true

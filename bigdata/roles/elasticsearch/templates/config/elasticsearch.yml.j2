@@ -1,0 +1,26 @@
+network.host: 0.0.0.0
+network.publish_host: _eth0_
+cluster.name: YUNLULOG1
+node.name: "{{inventory_hostname}}"
+node.master: true
+node.data: true
+#http.cors.enabled: true
+#http.cors.allow-origin: "/.*/"
+#index.number_of_shards: 5
+#index.number_of_replicas: 1
+#script.inline: true
+#script.indexed: true
+#discovery.zen.ping.multicast.enabled: false
+discovery.zen.ping.unicast.hosts: [
+{%- for host in groups['es_servers'] %}
+{%- if host != inventory_hostname  -%}
+{{ hostvars[host]['ansible_ssh_host'] }},
+{%- endif -%}
+{%- endfor %}]
+{% if es_xpack_enable %}
+xpack.security.enabled: false
+xpack.monitoring.enabled: true
+xpack.graph.enabled: false
+xpack.watcher.enabled: false
+#xpack.reporting.enabled: true
+{% endif %}

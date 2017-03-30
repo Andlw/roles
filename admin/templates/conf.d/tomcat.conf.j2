@@ -1,0 +1,104 @@
+proxy_cache_path {{ resty.prefix }}/nginx/cache/tomcat levels=1:2 keys_zone=htyunwang:2048m inactive=1d max_size=5g;
+server {
+	listen      80;
+	server_name	www.htyunwang.com;
+	root {{ resty.prefix }}/nginx/html/yunlu;
+	# proxy config
+	#client_max_body_size 300m;
+	#client_body_buffer_size 128k;
+	#proxy_connect_timeout 600;
+	#proxy_read_timeout 600;
+	#proxy_send_timeout 600;
+	#proxy_buffer_size 64k;
+	#proxy_buffers   4 32k;
+	#proxy_busy_buffers_size 64k;
+	#proxy_temp_file_write_size 64k;
+
+	#client max upload size
+	client_max_body_size {{ client_max_body_size }};
+
+	access_log logs/{{ ansible_hostname }}.tomcat.access.log tomcat;
+
+	#baidu tools
+	location = /baidu_verify_wEVOTSOeVf.html {
+          echo wEVOTSOeVf;
+  }
+
+	location /cosimcloud {
+		rewrite ^/cosimcloud/(.*) http://core.casicloud.com/cosimcloud/$1 permanent;
+	}
+
+	location /industryMall {
+		rewrite ^/industryMall/(.*) http://core.casicloud.com/industryMall/$1 permanent;
+	}
+
+	location /zone {
+		rewrite ^/zone/(.*) http://core.casicloud.com/zone/$1 permanent;
+	}
+
+	location /pages/nankang {
+		rewrite ^/pages/nankang/(.*) http://core.casicloud.com/pages/nankang/$1 permanent;
+	}
+
+	location /cloud/message {
+		rewrite ^/cloud/message/(.*) http://core.casicloud.com/cloud/message/$1 permanent;
+	}
+
+	location /autonomousControl {
+		rewrite ^/autonomousControl(.*) http://core.casicloud.com/autonomousControl$1 permanent;
+	}
+
+	location /sitemap {
+		try_files $uri @coresitemap;
+	}
+
+	location @coresitemap {
+		rewrite ^/sitemap/(.*) http://core.casicloud.com/sitemap/$1 redirect;
+	}
+
+	location /manager {
+		include acl.conf;
+		proxy_pass        http://127.0.0.1:8080/manager;
+	}
+
+	location / {
+		proxy_set_header  		Host             $host;
+		proxy_pass        http://127.0.0.1:8080;
+	}
+
+	location ~* \.(gif|jpg|jpeg|png|js|css)$ {
+		access_log logs/{{ ansible_hostname }}.resource.access.log cache;
+		try_files $uri @cachetomcat;
+	}
+
+	location @cachetomcat {
+		proxy_pass        		http://127.0.0.1:8080;
+		proxy_cache  			htyunwang;
+		add_header  			Nginx-Cache "$upstream_cache_status";
+		proxy_redirect    		off;
+		proxy_set_header  		Host             $host;
+		proxy_set_header  		X-Real-IP        $remote_addr;
+		proxy_set_header  		X-Forwarded-For  $proxy_add_x_forwarded_for;
+		proxy_cache_key 		$host$uri$is_args$args;
+		proxy_cache_valid 		200 302 20m;
+		proxy_http_version		1.1;
+		proxy_ignore_headers 	"Set-Cookie";
+		proxy_ignore_headers 	"Cache-Control";
+		proxy_ignore_headers 	"Vary";
+	}
+
+	#monitor
+	location /nginx_status  {
+		include acl.conf;
+		error_log	off;
+		access_log	off;
+		stub_status on;
+	}
+
+	location = /robots.txt {
+		default_type text/plain;
+		access_log	off;
+		echo "User-Agent: *";
+		#echo "Disallow: /";
+	}
+}

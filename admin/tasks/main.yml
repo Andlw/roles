@@ -1,0 +1,78 @@
+---
+# tasks file for portal
+# get repo from git
+# unzip war to tomcat_web_root
+# config nginx proxy
+
+- name: Create portal_dir directory
+  file: path={{ portal_dir }} state=directory
+
+- name: Create portal_static_webroot directory
+  file: path={{ portal_static_webroot }} state=directory
+
+# - name: Copy static resource directory
+#   synchronize:
+#     src=files/portal
+#     dest="{{ portal_static_webroot }}"
+#     delete=yes
+#     recursive=yes
+#     archive=no
+#     links=yes
+
+# get war from http://10.17.4.205/portal/portal-1.0-SNAPSHOT.war
+- name: download portal repo
+  get_url: url="{{ portal_repo_url_prefix }}/{{ app_name }}" dest={{ portal_dir }}
+
+- name: clear tomcat ROOT dir
+  shell: "rm -rf {{ tomcat_dir }}/webapps/ROOT/*"
+
+- name: unzip aop war
+  command: "unzip -oq {{ portal_dir }}/{{ app_name }} -d {{ tomcat_dir }}/webapps/ROOT"
+
+- name: Copy config directory
+  synchronize:
+    src=files/conf
+    dest="{{ resty.prefix }}/nginx"
+    delete=yes
+    recursive=yes
+    archive=no
+    links=yes
+# nginx proxy config
+- name: Makesure conf direcoty exists
+  file: path="{{ resty.prefix }}/nginx/conf/conf.d" state=directory
+
+- name: Makesure cache direcoty exists
+  file: path="{{ resty.prefix }}/nginx/cache/tomcat" state=directory
+  #command: "mkdir -p {{ resty.prefix }}/nginx/conf/conf.d"
+  #ignore_errors: true
+
+- name: copy app config
+  template: src=templates/app/conf/app.properties.j2 dest="{{ tomcat_dir }}/webapps/ROOT/WEB-INF/classes/app.properties"
+
+- name: add tomcat conf
+  template: src=templates/conf.d/tomcat.conf.j2 dest="{{ resty.prefix }}/nginx/conf/conf.d/tomcat.conf"
+
+- name: Makesure nginx run deamon
+  replace: dest="{{ resty.prefix }}/nginx/conf/nginx.conf" regexp='daemon off;' replace='daemon on;' backup=yes
+
+- name: Configure Tomcat server
+  template: src=templates/tomcat/conf/server.xml.j2 dest="{{ tomcat_dir }}/conf/server.xml"
+
+- name: Configure Tomcat server
+  template: src=templates/tomcat/conf/context.xml.j2 dest="{{ tomcat_dir }}/conf/context.xml"
+
+- name: Configure Tomcat server web.xml
+  template: src=templates/tomcat/conf/web.xml.j2 dest="{{ tomcat_dir }}/conf/web.xml"
+
+- name: Change ownership of Tomcat installation
+  file: path="{{ tomcat_dir }}/" owner=tomcat group=tomcat state=directory recurse=yes
+
+- name: restart tomcat
+  debug: msg="tomcat restart"
+  notify: restart tomcat
+  changed_when: true
+
+- name: restart resty
+  debug: msg="nginx restart"
+  notify: restart resty
+  changed_when: true

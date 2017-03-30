@@ -1,0 +1,2 @@
+js,javascript
+谷歌=>google

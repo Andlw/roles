@@ -1,0 +1,27 @@
+---
+# tasks file for elasticsearch
+- name: check service status
+  service: name=elasticsearch state=started enabled=yes
+  register: es_service_res
+  ignore_errors: true
+
+- include: install.yml
+  when: es_service_res | failed
+
+- name: Copy config file
+  template: src=templates/config/elasticsearch.yml.j2 dest="{{es_conf_dir}}/elasticsearch.yml"
+
+- name: Copy jvm.options
+  template: src=templates/config/jvm.options.j2 dest="{{es_conf_dir}}/jvm.options"
+
+- name: Copy log config file
+  template: src=templates/config/log4j2.properties.j2 dest="{{es_conf_dir}}/log4j2.properties"
+
+- name: Copy sysconfig file
+  template: src=templates/sysconfig/elasticsearch.j2 dest="/etc/sysconfig/elasticsearch"
+
+- include: plugin.yml
+  ignore_errors: true
+
+# - name: restart elasticsearch service
+#  service: name=elasticsearch state=restarted

@@ -1,0 +1,15 @@
+---
+- name: temp remove uma
+  yum: name=uma state=absent
+
+- name: install monitor rpm http://static.ucloud.cn/uma/uma-1.0.8-1.x86_64.rpm
+  yum: name=http://static.ucloud.cn/uma/uma-1.0.8-1.x86_64.rpm state=present
+
+- name: copy config file
+  copy: src=files/static_conf.json dest=/etc/uma/static_conf.json force=yes
+
+- name: Restart uma
+  service: name=uma state=restarted
+
+# uninstall method
+# rpm -e uma

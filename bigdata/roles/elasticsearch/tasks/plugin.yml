@@ -1,0 +1,14 @@
+---
+- name: install rsync
+  yum: name={{item}} state=latest
+  with_items:
+    - rsync
+
+- name: Sync config files for ik
+  synchronize:
+    src=files/ik/
+    dest="{{ es_home }}/plugins/ik"
+    delete=yes
+    recursive=yes
+    archive=no
+    links=yes

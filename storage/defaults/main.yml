@@ -1,0 +1,13 @@
+---
+# default file for storage
+storage_port: 23000
+storage_bind_addr: 
+storage_group_name: group1
+storage_base_path: /data/fdfs_storage_info
+storage_store_path0: /data/fdfs_storage_data
+storage_tracker_server: 172.17.60.206:22122
+storage_log_level: notice
+storage_allow_host: *
+storage_http_port: 8080
+libfastcommon_path: "https://codeload.github.com/happyfish100/libfastcommon/tar.gz/V1.0.7"
+fastdfs_path: "https://github.com/happyfish100/fastdfs/archive/V5.05.tar.gz"
