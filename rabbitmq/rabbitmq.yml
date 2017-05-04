@@ -1,0 +1,7 @@
+- hosts: rabbitmq
+#- hosts: 10.0.5.172
+  remote_user: root
+
+ 
+  roles:
+  - rabbitmq
