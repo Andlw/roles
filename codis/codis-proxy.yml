@@ -1,0 +1,9 @@
+- hosts: codis-proxy
+#- hosts: 10.0.5.151
+  remote_user: root
+ 
+  roles:
+  - mkdir
+  - go
+  - codis-base
+  - codis-proxy

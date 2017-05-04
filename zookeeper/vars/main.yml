@@ -1,0 +1,16 @@
+# zookeeper version
+ zktar: zookeeper-3.4.10.tar.gz
+ zk: zookeeper-3.4.10
+
+# zokeeper install path
+ zk_path: /app/zookeeper-3.4.10
+ zk_link: /app/zookeeper
+
+# zookeeper data and log path
+ data: /app/zookeeper/data
+ log: /app/zookeeper/log
+
+# zookeeper servers
+ zk1: 10.0.5.141:2888:3888
+ zk2: 10.0.5.142:2888:3888
+ zk3: 10.0.5.143:2888:3888

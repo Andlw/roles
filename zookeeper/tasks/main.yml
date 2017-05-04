@@ -1,0 +1,37 @@
+# mkdir /app /appdata
+- name: mkdir /app 
+  file: dest=/app state=directory mode=775
+- name: mkdir /appdata
+  file: dest=/appdata state=directory mode=775
+
+# unarchive zookeeper to remote host
+- name: unarchive zookeeper to remote host
+  unarchive: src={{ zktar }} dest=/app/
+- name: creaate link file zookeeper
+  file: src={{ zk_path }} dest={{ zk_link }}  state=link
+
+# config zookeeper
+- name: mkdir /app/zookeeper/data
+  file: dest={{ zk_path }}/data state=directory mode=755
+- name: mkdir /app/zookeeper/log
+  file: dest={{ zk_path }}/log state=directory
+- name: create myid
+  template: src=myid.j2 dest={{ zk_path }}/data/myid mode=644
+- name: copy zoo.cfg
+  template: src=zoo.cfg.j2 dest={{ zk_path }}/conf/zoo.cfg mode=644
+
+# create zookeeper.sh for PATH
+- name: create zookeeper.sh
+  template: src=zookeeper.sh.j2 dest=/etc/profile.d/zookeeper.sh mode=644
+- name: source zookeeper.sh
+  shell: source /etc/profile.d/zookeeper.sh
+
+
+# start zookeeper
+- name: start zookeeper service
+  shell: /app/zookeeper/bin/zkServer.sh start
+
+# auto start zookeeper
+- name: auto start zookeeper service 
+  template: src=rc.local.j2 dest=/etc/rc.local mode=777
+

@@ -1,0 +1,10 @@
+---
+###redis cluster deploy
+redis_app: /data/app
+redis_prefix_url: http://download.redis.io/releases
+redis_name: redis-3.2.4.tar.gz
+redis_dir: redis-3.2.4
+redis_ip: 172.17.60.201
+redis_port: 7000
+daemonize:  yes
+cluster-enabled:  yes

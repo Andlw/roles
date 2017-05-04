@@ -1,0 +1,4 @@
+# app install dir 
+ appdir: /app
+# app data dir
+ appdatadir: /appdata

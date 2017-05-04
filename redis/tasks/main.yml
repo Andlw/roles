@@ -1,0 +1,35 @@
+---
+- name: Create redis_app directory
+  file: path={{ redis_app }}  state=directory
+
+- name: Download  redis   package
+  get_url:  url={{ redis_prefix_url }}/{{ redis_name }} dest={{ redis_app }}
+
+- name: Tar redis  package
+  shell:  chdir={{ redis_app }}  tar xvf {{ redis_name }}
+
+- name: Install development package
+  yum:  name={{ item }} state=present
+    with_items:
+      - gcc
+      - gcc-c++
+      - ruby
+      - ruby-devel
+      - rubygems
+      - rpm-build
+
+
+- name: Install redis package
+  shell:  chdir={{ redis_app }}/{{ redis_dir }}  make && make install
+
+- name: Copy  redis-trib
+  shell:  chdir={{ redis_app }}/{{ redis_dir }}/src  cp redis-trib.rb /usr/local/bin/
+
+- name: Copy  redis configure
+  template: src=templates/redis.conf.j2 dest={{ redis_app }}/{{ redis_dir }}/redis.conf
+
+- name: Started redis cluster
+  shell:  redis-server {{ redis_app }}/{{ redis_dir }}/redis.conf
+
+- name: Gem install redis
+  shell:  gem install redis 

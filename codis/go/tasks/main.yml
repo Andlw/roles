@@ -1,0 +1,8 @@
+- name: unarchive go1.8 to remote host
+  unarchive: src=go1.8.linux-amd64.tar.gz dest=/app/
+- name: mkdir /app/gopkg
+  file: dest=/app/gopkg state=directory mode=755
+- name: copy go.sh for GOROOT GOPATH PATH
+  template: src=go.sh.j2 dest=/etc/profile.d/go.sh
+- name: source /etc/profile.d/go.sh
+  shell: source /etc/profile.d/go.sh

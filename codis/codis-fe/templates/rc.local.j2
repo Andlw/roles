@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# This script will be executed *after* all the other init scripts.
+# You can put your own initialization stuff in here if you don't
+# want to do the full Sys V style init stuff.
+
+touch /var/lock/subsys/local
+
+# start codis-dashboard
+nohup /app/codis/bin/codis-dashboard --ncpu=4 --config=/app/codis/dashboard.conf --log=/app/codis/log/dashboard.log --log-level=WARN &
+
+# start codis-fe
+nohup /app/codis/bin/codis-fe --ncpu=4 --log=/app/codis/log/fe.log --log-level=WARN --dashboard-list=/app/codis/codis.json --listen=0.0.0.0:18090 &
+

@@ -1,0 +1,9 @@
+#- hosts: codis-server
+- hosts: 10.0.5.162
+  remote_user: root
+ 
+  roles:
+  - mkdir
+  - go
+  - codis-base
+  - codis-server

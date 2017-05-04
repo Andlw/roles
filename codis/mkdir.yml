@@ -1,0 +1,6 @@
+#- hosts: all
+- hosts: 10.0.5.150
+  remote_user: root
+ 
+  roles:
+  - mkdir
