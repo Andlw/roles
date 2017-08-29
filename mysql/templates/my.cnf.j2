@@ -4,6 +4,7 @@ default-character-set=utf8
 socket={{ mysql_sock }}
 
 [mysqld]
+skip-grant-tables
 basedir={{ mysql_install_dir }}
 datadir={{ mysql_data_dir }}
 socket={{ mysql_sock }}
