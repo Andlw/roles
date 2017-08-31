@@ -1,0 +1,13 @@
+- hosts: spark_servers
+  tasks:
+    - name: Cofigure root passwd
+      shell: echo "*aaaa" |passwd --stdin root
+    - name: Create data directory
+      file: path=/data    state=directory
+    - name: Init disk
+      shell: mkfs.ext4 /dev/vdb
+
+    - name:  Cofigure fdsk file
+      shell: echo "`blkid  |awk '{print $2}' |tail -1` /data ext4 _netdev 0 0" >> /etc/fstab
+    - name: Mount disk
+      shell: mount -a

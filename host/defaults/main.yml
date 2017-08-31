@@ -1,0 +1,7 @@
+---
+# defaults file for yunluweb
+dns_ip: 10.153.40.114
+chrony_server: 10.153.40.114
+chrony_ip: 0.0.0.0
+repo_url: http://10.153.40.114
+repo_dir: /etc/yum.repos.d

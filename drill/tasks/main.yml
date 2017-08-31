@@ -1,0 +1,16 @@
+---
+- name: Create app directory
+  file: path={{ app_dir }}  state=directory
+
+- name: Download dirll package
+  get_url: url={{ drill_repo_url }}/{{ drill_name }}.tar.gz dest=/data/app
+- name: tar drill package
+  shell: chdir={{ app_dir }} tar xvf {{ drill_name }}.tar.gz
+
+- name: Copy dirll config
+  template: src=templates/drill-override.conf.j2  dest={{app_dir}}/{{drill_name}}/conf/drill-override.conf
+- name: Started drill server
+  shell: chdir={{app_dir}}/{{drill_name}}  ./bin/drillbit.sh --config ./conf/ start
+
+- name: Delete drill package
+  shell: rm -rf {{app_dir}}/{{drill_name}}.tar.gz

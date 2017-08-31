@@ -1,0 +1,8 @@
+---
+# defaults file for yunluweb
+redis_port: 7001
+redis_pidfile: /var/run/redis_7000.pid
+redis_dir: /data/redis
+redis_clients:  50000
+cluster_config: nodes-7000.conf
+app_dir: /data/app

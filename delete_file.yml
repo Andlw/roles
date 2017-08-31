@@ -1,0 +1,21 @@
+- hosts: all
+  tasks:
+     - name: Delete storm storm.log
+       shell: rm -rf /var/log/storm/workers-artifacts/*
+     - name: Remove hadoop package
+       yum: name={{ item }} state=absent
+       with_items:
+          - hadoop_2*
+          - hdp-select*
+          - spark*
+          - ranger_2*
+          - bigtop*
+          - ambari-*
+          - hbase_2*
+          - storm_2*
+          - kafka_2*
+          - zookeeper_2*
+     - name: Delete hadoop  data
+       shell: rm -rf /data/hadoop
+     - name: Delete kafka data
+       shell: rm -rf /data/kafka-logs

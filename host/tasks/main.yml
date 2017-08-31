@@ -1,0 +1,33 @@
+---
+- name: Set hostnme
+  hostname: name={{ hostname }}
+
+- name: Copy resolv config
+  template: src=templates/conf.d/resolv.conf.j2  dest=/etc/resolv.conf
+
+- name: Copy  hosts config
+  copy: src=files/hosts  dest=/etc/hosts
+- name: Stopped selinx
+  shell: setenforce 0
+- name: Copy selinx config
+  copy: src=files/selinux  dest=/etc/sysconfig/selinx
+
+- name: Copy epel repo
+  template: src=templates/yum.repos.d/epel.repo.j2  dest={{ repo_dir }}/epel.repo
+- name: Copy hdp repo
+  template: src=templates/yum.repos.d/hdp.repo.j2 dest={{ repo_dir }}/hdp.repo
+
+- name: Clean repo all
+  shell: yum clean all
+
+- name: Copy limits config
+  copy: src=files/limits.conf dest=/etc/security/limits.conf
+- name: Change files limits
+  shell: ulimit -SHn 65535
+
+- name: Install chrony server
+  yum: name=chrony state=present
+- name: Copy chrony config
+  template: src=templates/conf.d/chrony.conf.j2  dest=/etc/chrony.conf
+- name: Started chrony server
+  service: name=chronyd state=started enabled=yes

@@ -1,0 +1,24 @@
+---
+- name: Create app directory
+  file: path={{ app_dir }}  state=directory
+
+- name: Install ruby_devel package
+  yum: name={{ item }}   state=present
+  with_items:
+      - wget
+      - ruby
+      - ruby-devel
+      - rubygems
+      - rpm-build
+
+- name: Copy redis scripts
+  copy: src=files/build_redis.sh  dest={{ app_dir }} mode="a+x"
+- name: Runnging build_redis scripts
+  shell:  /data/app/build_redis.sh
+
+- name: Copy redis Configure
+  template: src=templates/redis.conf.j2 dest={{ redis_dir }}/redis.conf
+- name: Gem install redis
+  shell:  gem install redis
+- name: Started redis server
+  shell: chdir={{ redis_dir }} ./bin/redis-server redis.conf
