@@ -1,0 +1,15 @@
+方式一：源码
+wget https://download.elastic.co/beats/filebeat/filebeat-1.3.0-x86_64.tar.gz
+tar -zxvf filebeat-1.3.0-x86_64.tar.gz
+
+方式二：deb
+curl -L -O https://download.elastic.co/beats/filebeat/filebeat_1.3.0_amd64.deb
+sudo dpkg -i filebeat_1.3.0_amd64.deb
+
+方式三：rpm
+curl -L -O https://download.elastic.co/beats/filebeat/filebeat-1.3.0-x86_64.rpm
+sudo rpm -vi filebeat-1.3.0-x86_64.rpm
+
+方式四：MAC
+curl -L -O https://download.elastic.co/beats/filebeat/filebeat-1.3.0-darwin.tgz
+tar -xzvf filebeat-1.3.0-darwin.tgz
