@@ -1,0 +1,14 @@
+---
+- name: Install keepalived server
+  yum: name=keepalived state=present
+
+- name: Copy keepalived config
+  template: src=templates/conf/keepalived.conf.j2  dest=/etc/keepalived/keepalived.conf
+
+- name: Started keepalived server
+  service: name=keepalived state=started enable=yes
+
+- name: Restarted keepalived
+  debug: msg="keepalived restart"
+  notify: restart keepalived
+  changed_when: true

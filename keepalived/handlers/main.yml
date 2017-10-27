@@ -1,0 +1,4 @@
+---
+# handlers file for yunluweb
+- name: restart keepalived
+  service: name=keepalived state=restarted

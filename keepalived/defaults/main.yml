@@ -1,0 +1,18 @@
+---
+# defaults file for yunluweb
+notify_email: liuwei@htyunwang.com
+notify_email_from: no-reply@htyunwang.com
+www_vip: 10.153.40.160
+smtp_server: smtp.htyunwang.com
+router_id: htyunlu_01
+vrrp_mcast_group: 224.0.18.18
+interface: eth0
+virtual_router_id: 55
+auth_pass: 11112222
+lb_algo: rr
+lb_kind: DR
+nat_mask: 255.255.255.0
+weight: 1
+url_path: /workbench/index.html
+real_server_1: 10.153.40.205
+real_server_2: 10.153.40.206
