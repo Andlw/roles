@@ -1,6 +1,6 @@
 ---
 - name: Create app direcoty
-  file: name={{ app_data }}  state=direcoty
+  file: path={{ app_data }}  state=direcoty
 
 - name: Install python tools
   yum: name=python-setuptools state=present
