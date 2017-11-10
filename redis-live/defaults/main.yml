@@ -1,0 +1,9 @@
+---
+# defaults file for yunluweb
+sqlite_path: /data/app/RedisLive/src/db/redislive.sqlite
+redis_server_01: 10.153.40.205
+redis_server_02: 10.153.40.206
+redis_live_url: https://github.com/kumarnitin/RedisLive/zipball/master
+redis_live_pak: nkrode-RedisLive-6debcb4
+app_data: /data/app
+redis_live_conf: /data/app/RedisLive/src
