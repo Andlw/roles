@@ -1,0 +1,18 @@
+---
+
+- name: Install gnuplot tools
+  yum: name={{ item }} state=present
+  with_items:
+    - gnuplot
+    - opentsdb
+
+
+- name: Copy create_tables scripts
+  copy: src=files/create_table.sh dest=/home/hbase/create_table.sh  mode=a+x
+
+
+- name: Copy tsd configure
+  template: src=templates/conf.d/opentsdb.conf.j2 dest={{ tsd_conf_dir }}/opentsdb.conf
+
+- name: Started tsdb server
+  shell: chdir=/usr/share/opentsdb  nohup ./bin/tsdb tsd &
