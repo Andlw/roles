@@ -1,6 +1,0 @@
----
-# defaults file for yunluweb
-localip:  172.17.60.5
-remoteip: 192.168.12.134-238,192.168.12.245
-ms-dns: 172.17.60.100
-network:  eno16777736 

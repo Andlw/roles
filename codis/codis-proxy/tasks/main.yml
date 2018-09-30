@@ -1,9 +1,0 @@
-# config codis-proxy
-- name: copy proxy.conf to remote host
-  template: src=proxy.conf.j2 dest={{ codis_path }}/proxy.conf mode=644
-
-# start codis-proxy
-- name: start codis-proxy
-  shell: nohup /app/codis/bin/codis-proxy --ncpu=4 --config=/app/codis/proxy.conf --log=/app/codis/log/proxy.log --log-level=WARN &
-- name: auto start codis-proxy
-  template: src=rc.local.j2 dest=/etc/rc.local mode=777

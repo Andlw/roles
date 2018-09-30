@@ -1,9 +1,0 @@
----
-# defaults file for yunluw
-
-server: 172.17.60.208
-server_port:  8080
-local_address:  127.0.0.1
-local_port: 1080
-password: asd.1234
-timeout:  300

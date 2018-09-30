@@ -1,9 +1,0 @@
----
-- hosts: es_servers
-  roles:
-    - role: java
-    - role: elasticsearch
-  vars:
-    java_version: 8
-    java_download_from_oracle: true
-    java_subversion: 74

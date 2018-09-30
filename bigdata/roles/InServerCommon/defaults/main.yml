@@ -1,5 +1,0 @@
----
-# defaults file for InServerCommon
-work_dir: /data/app
-enable_hosts: true
-enable_monitor: true

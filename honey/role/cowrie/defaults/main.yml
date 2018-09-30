@@ -1,6 +1,0 @@
----
-# defaults file for yunluweb
-cowrie_dir: /data/cowrie
-cowrie_url: http://github.com/micheloosterhof/cowrie.git
-hostname: admin1
-listen_port: 60000

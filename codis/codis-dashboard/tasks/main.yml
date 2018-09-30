@@ -1,9 +1,0 @@
-# config codis-dashboard
-- name: copy dashboard.conf to remote host
-  template: src=dashboard.conf.j2 dest={{ codis_path }}/dashboard.conf mode=644
-
-# start codis-dashboard
-- name: start codis-dashboard service
-  shell: nohup /app/codis/bin/codis-dashboard --ncpu=4 --config=/app/codis/dashboard.conf --log=/app/codis/log/dashboard.log --log-level=WARN &
-- name: auto start codis-dashboard service
-  template: src=rc.local.j2 dest=/etc/rc.local mode=777

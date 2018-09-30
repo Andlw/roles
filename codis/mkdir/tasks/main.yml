@@ -1,5 +1,0 @@
-# mkdir /app /appdata
-- name: mkdir /app 
-  file: dest={{ appdir }} state=directory mode=775
-- name: mkdir /appdata
-  file: dest={{ appdatadir }} state=directory mode=775

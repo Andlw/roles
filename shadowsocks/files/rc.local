@@ -1,3 +1,0 @@
-#!/bin/bash
-touch /var/lock/subsys/local
-ssserver  -c  /etc/shadowsocks.json -d  start --user  ssuser

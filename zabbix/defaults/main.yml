@@ -1,9 +1,0 @@
----
-# defaults file for yunluweb
-portal_dir: /data/app/portal
-portal_repo_url_prefix: http://10.17.4.205/admin
-app_name: admin-1.0.0-SNAPSHOT.war
-portal_http_port: 8080
-portal_zk: 10.17.3.158
-portal_static_webroot: "{{ resty.prefix }}/nginx/html"
-client_max_body_size: 3m

@@ -1,9 +1,0 @@
-- hosts: redis-sentinel
-#- hosts: 10.0.5.145
-  remote_user: root
- 
-  roles:
-  - mkdir
-#  - go
-#  - codis-base
-  - redis-sentinel

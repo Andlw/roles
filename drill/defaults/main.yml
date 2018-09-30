@@ -1,7 +1,0 @@
----
-# defaults file for yunluweb
-drill_name: apache-drill-1.11.0
-drill_repo_url: http://10.153.40.114/repo/drill
-cluster_id: drill
-zk_server: zk01.inter.htyunlu.com
-app_dir: /data/app

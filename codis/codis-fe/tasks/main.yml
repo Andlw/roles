@@ -1,9 +1,0 @@
-# config codis-fe
-- name: copy codis.json to remote host
-  template: src=codis.json.j2 dest={{ codis_path }}/codis.json mode=644
-
-# start codis-fe
-- name: start codis-fe service
-  shell: nohup /app/codis/bin/codis-fe --ncpu=4 --log=/app/codis/log/fe.log --log-level=WARN --dashboard-list=/app/codis/codis.json --listen=0.0.0.0:18090 &
-- name: auto start codis-fe
-  template: src=rc.local.j2 dest=/etc/rc.local mode=777

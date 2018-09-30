@@ -1,7 +1,0 @@
----
-# defaults file for yunluweb
-cowrie_log: /data/cowrie/cowrie/log
-logstash_ip:  172.17.60.11:5045
-app_dir:  /data/app
-filebeat_url: https://download.elastic.co/beats/filebeat
-filebeat_rpm:  filebeat-1.3.0-x86_64.rpm

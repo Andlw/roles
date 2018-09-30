@@ -1,6 +1,0 @@
----
-# vars file for docker
-  docker_info:
-    version: 1.9.1
-    deploy: 1
-    state: "installed"

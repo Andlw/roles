@@ -1,8 +1,0 @@
-10.0.5.171 rabbitmq171
-10.0.5.172 rabbitmq172
-10.0.5.173 rabbitmq173
-10.0.5.174 rabbitmq174
-
-
-127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
